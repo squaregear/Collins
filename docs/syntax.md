@@ -137,7 +137,3 @@ The `msg` message handler syntax is actually just a shorthand for function. Each
     Receive(state, my_pattern, ident, from_module, from_ident)
 
 You can define `Receive` yourself if you want to implement fancier pattern matching. It can be used interchangeably with other `msg` handlers.
-
-## zzz define the startup sequence with the command line stuff being passed
-zzz does it makes sense to change it to something better than just a plain list
-zzz [:startup, params] or [:main, params]?
