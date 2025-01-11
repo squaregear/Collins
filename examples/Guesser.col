@@ -1,0 +1,27 @@
+# Initialize the guessing game with a random number and a guess counter
+Initial(_ident)
+	{"target":Random.RandomInt(100), "guesses":0}
+
+
+# Message handling
+msg [:startup, []]
+	"Guess a number from 0 to 99: " :> Input:0
+	state
+
+msg [:input_result, guess]
+	.CheckGuess(Convert.ToInt(guess), state)
+
+
+# Guess checking function
+CheckGuess(g, {"target":t}=>state) where g<t
+	"Your guess was too low, try again: " :> Input:0
+	state|>{"guesses": state["guesses"]+1}
+
+CheckGuess(g, {"target":t}=>state) where g>t
+	"Your guess was too high, try again: " :> Input:0
+	state|>{"guesses": state["guesses"]+1}
+
+CheckGuess(g, {"target":g}=>state)
+	state["guesses"]+1 => final
+	"Correct! It took you "+Convert.ToStr(final)+" guesses." :> Print:0
+	state
