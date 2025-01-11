@@ -5,6 +5,7 @@ import extcodes
 import guardcodes
 import mymsgpack
 import atom
+import re
 
 def comp(ast, module_name):
     out={'funcs':{}}
@@ -250,13 +251,20 @@ foo(:test)
 # so you can instead match against such a variable in the enclosing scope when
 # defining an anonymous function. (Is this "pinning" from elixir?)
 
+pathpart=re.compile(r'.*[/\\]')
+def just_module_name(filename):
+        m=pathpart.match(filename)
+        module_name=filename
+        if m:
+            module_name=module_name[len(m[0]):]
+        return module_name[:module_name.index('.')]
+
 if __name__=='__main__':
     module_name='testing'
     if len(sys.argv)>1:
         with open(sys.argv[1], 'r') as file:
             code=file.read()
-        module_name=sys.argv[1]
-        module_name=module_name[:module_name.index('.')]
+        module_name=just_module_name(sys.argv[1])
 
     ast=collinsyacc.parser.parse(code)
     #print(ast)

@@ -2,6 +2,7 @@ import sys
 import mymsgpack
 import collinsvm
 import extcodes
+import atom
 import re
 
 def module_from_file(filename):
@@ -68,7 +69,7 @@ if __name__=='__main__':
             collinsvm.environment[module_name]=module_from_file(filen)
 
         module_name=just_module_name(sys.argv[1])
-        collinsvm.SendMessage(sys.argv[1:], module_name, 0, 'system', 0)
+        collinsvm.SendMessage([atom.of('startup'), sys.argv[1:]], module_name, 0, 'system', 0)
 
         while not collinsvm.process_queue.empty():
             collinsvm.process_once()

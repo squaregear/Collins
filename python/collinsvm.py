@@ -659,6 +659,7 @@ make_atom('to')
 make_atom('add')
 make_atom('add_to')
 make_atom('add_from')
+make_atom('startup')
 TRUE=atom_of['true']
 FALSE=atom_of['false']
 
