@@ -8,11 +8,11 @@ I am a very inexperienced parser programmer, so bad input files will fail with o
 
 ## Compiling and Running
 
-    python CollinsCompile.py sourcefile.col outputfile.cc
+    python collinscompile.py sourcefile.col outputfile.cc
 
 This will read in the source Collins file, compile it to bytecode, and save the result in the Compiled Collins output file. While compiling, it will build a list of other modules that it uses and keep track of what it needs to execute.
 
-    python CollinsLoader.py mainfile.cc other input parameters
+    python collinsloader.py mainfile.cc other input parameters
 
 This will load up the main compiled Collins file, make an instance of it with identity 0, and send it a message consisting of the command line starting with the Compile Collins file itself. It will also load any other modules that the main one needs.
 

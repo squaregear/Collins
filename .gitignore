@@ -1,3 +1,6 @@
 *.swp
 *.swo
 
+python/__pycache__/*
+python/parser.out
+python/parsetab.py

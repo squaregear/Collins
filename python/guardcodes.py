@@ -1,0 +1,9 @@
+lookup={
+    'and':-1,
+    'or':-2,
+    'less':-3,
+    'greater':-4,
+    'equal':-5,
+}
+index=-7
+literal=-8
