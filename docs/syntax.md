@@ -1,6 +1,6 @@
 # Collins Syntax
 
-A Collins file defines a module and consists of function definitions and message handlers. Instances of the module can be addressed by an identifier and sent messages. Identifiers can be strings or integers.
+A Collins file defines a module and consists of function definitions and message handlers. Instances of the module can be addressed by an identifier, and sent messages. Identifiers can be strings or integers.
 
 An instance has some internal state that you define. When an instance receives a message it can take actions and optionally update its state.
 
@@ -10,14 +10,14 @@ Each function can have multiple definitions. Each one should accept a different 
 
 A function definition begins with a head that consists of the function name and the pattern of parameters it takes. It can optionally include a guard stating other logic that should be tested against the parameters. After the head is a block of instructions to be executed. The last expression of the function determines its return value.
 
-    MyAdd(int=>a, int=>b) where a>5
+    MyAdd(int=>a, {"reading":b}) where a>5
         a+b
 
-In this example the function name is `MyAdd`. The pattern being accepted here consists of two integers, the first one will be called `a` and the second one `b`. There is a guard saying that this definition should only be executed if `a` is greater than 5. The block to be executed here consists of only a return value, the sum of the two values.
+In this example the function name is `MyAdd`. The pattern being accepted here consists of an integer and a map. It's expecting the map to contain the key `"reading"` and taking that value. There is a guard saying that this definition should only be executed if `a` is greater than 5. The block to be executed here consists of only a return value, the sum of the two inputs.
 
 ### Patterns
 
-A pattern can consist of a simple literal, like an integer, a string, or an atom (see the [Atoms](#atoms) section for a full discussion of what atoms are). These expect to match both value specified and its type.
+A pattern can consist of a simple literal, like an integer, a string, or an atom (see the [Atoms](#atoms) section for a full discussion of what atoms are). These expect to match both the value specified and its type.
 
     Function(42, "hello", :my_atom)
 
@@ -112,7 +112,7 @@ They can be passed directly as parameters to other functions, or returned as the
 
 ### The Initial Function
 
-Modules should generally include a definition for a function called Initial, which takes one parameter. This is used when a new instance of the module is first crated. Initial will be called with the instance's identifier. The return value will be kept as that instance's initial state.
+Modules should generally include a definition for a function called Initial, which takes one parameter. This is used when a new instance of the module is first created. Initial will be called with the instance's identifier. The return value will be kept as that instance's initial state.
 
 If Initial is not defined in your module a default implementaion will be added that simply sets the instance's state to 0.
 
