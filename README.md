@@ -2,6 +2,8 @@
 
 This began when I read an article encouraging programmers to design their own programming language. Doing so lets you tackle all sorts of crunchy problems like writing a parser and building a virtual machine. But it also makes you think deeply about big picture things like what have you liked and disliked about the languages you've used? What would your ideal prgramming language be? Collins is my attempt to answer those quetions.
 
+* [Collins language syntax](docs/syntax.md)
+
 ## Philosophy
 
 As a programmer, when I start a new project I want to be thinking about the problem to be solved. But too often I have to first spend time working out infrastructure plans. How much will this need to scale? How many servers will I need? How will they connect and share information? How will my data be stored? I don't want to have to do that. I want a language and evironment where I can start from the beginning with the real logic and the deploy it in a system where it can scale from five users to five million without me having to think about it. I haven't actually build such a scalable system, but I hope the language I'm building here makes that possible.
