@@ -20,10 +20,10 @@ You might notice that even though the operations are launched in one order, the 
 
 # Advent of Code
 
-The last example is an attempt to solve an actual problem with Collins. I took day two of 2024's [Advent of Code](https://adventofcode.com/2024/day/2) because it was a nice example of a problem that benefitted from parallel processing and I had recently already solved it using another language. The problem requires you to read lines of digits from a file and determine if the numbers in the line have the right relation to each other. The final result is the count of lines that match that criteria.
+The last example is an attempt to solve an actual problem with Collins. I took day two of 2024's [Advent of Code](https://adventofcode.com/2024/day/2) because it was a nice example of a problem that benefitted from parallel processing (and I had recently already solved it using another language). The problem requires you to read lines of digits from a file and determine if the numbers in the line have the right relation to each other. The final result is the count of lines that match that criteria.
 
 The main module (`AocDay02.col`) reads the input file and then sends each line to an individual line processor (`AocDay02Line.col`). Since a module can be identified by an int or a string, I just used the line itself as the identifier. Each line is sent a message asking to check its result.
 
-When a line is instanciated, it does the work of checking the line, and stores `:true` or `:false`, to indicate if the line was good. When it gets the `:check` message, it sends its state back to the main module. All this is triggered by simply sending each line the `:check` message, Since they don't already exist, it will create them, thier initialization will compute the result, and then they will process the `:check`.
+When a line is instanciated, it does the work of checking the line, and stores `:true` or `:false` as its state, to indicate if the the result. When it gets the `:check` message, it sends its state back to the main module. All this is triggered by simply sending each line the `:check` message, Since they don't already exist, it will create them, thier initialization will compute the result, and then they will process the `:check`.
 
 Back in the main module, it will receive each line's `:true` or `:false` and add up the results it receives. It also keeps track of how many responses it has gotten and when that matches the number of lines that were in the file, it prints out the final result.
