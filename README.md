@@ -3,6 +3,7 @@
 This began when I read an article encouraging programmers to design their own programming language. Doing so lets you tackle all sorts of crunchy problems like writing a parser and building a virtual machine. But it also makes you think deeply about big picture things like what have you liked and disliked about the languages you've used? What would your ideal prgramming language be? Collins is my attempt to answer those quetions.
 
 * [Collins language syntax](docs/syntax.md)
+* [Collins code examples](examples)
 
 ## Philosophy
 
