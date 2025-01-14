@@ -1,0 +1,25 @@
+Initial(_)
+    :read_lines :> File:"input02.txt"
+    {"count":0, "responses":0, "failures":0}
+
+msg [:read_lines_result, lines]
+    List.Length(lines) => count
+    lines |> Enum.Each(&(line){:check :> AocDay02Line:line line}) => lines
+    state |> {"count":count}
+
+msg :true
+    state
+    |> {"responses": state["responses"]+1, "failures": state["failures"]+1}
+    |> .PrintIfDone()
+
+msg :false
+    state
+    |> {"responses": state["responses"]+1}
+    |> .PrintIfDone()
+
+PrintIfDone({"count":c, "responses":c, "failures":f}=>state)
+    c-f :> Print:0
+    state
+
+PrintIfDone(state)
+    state

@@ -1,0 +1,12 @@
+msg []
+    Enum.Range(10)|>Enum.Each(&(ident){
+        [:say_hello_to, Random.RandomInt(10)]:>Employee:ident 0
+    }) => x
+
+    Enum.Range(10)|>Enum.Each(&(ident){
+        [:add,"Employee",ident,"member","Team",ident/4]:>Relation:0 0
+    }) => X
+
+    :print_direct_reports :> Employee:1
+
+    0

@@ -1,0 +1,23 @@
+Initial(line)
+    line # take the line
+    |> String.Split() # split it up into a list of strings
+    |> Enum.Map(Convert.ToInt/1) # convert those to ints
+    => ints # store that in a variable
+
+    List.Length(ints)-1 # take the length-1
+    |> Enum.Range() # go through that many
+    |> Enum.Map(&(i){ints[i+1]-ints[i]}) # get the diff from one to the next
+    |> .Check() # check if the list is valid
+
+Check([first]=>list) where first<0 # if the first diff is negative
+    list # take the list
+    |> Enum.Map(&(i){-i}) # multiply everything by -1
+    |> .Check() # and check the result
+
+Check(list)
+    list # take the list
+    |> Enum.Any(&(i){i<1 or i>3}) # return :true if any readings are bad
+
+msg :check
+    state :> AocDay02:0
+    state

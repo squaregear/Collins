@@ -1,0 +1,6 @@
+Initial(id)
+    ["Zoom","Teams"][id%2]
+
+msg [:relation_added,:from,"member","Employee",id]
+    [:conference_system, state] :> Employee:id
+    state

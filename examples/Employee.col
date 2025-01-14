@@ -1,0 +1,42 @@
+Initial(id)
+    ["Alice","Bob","Carol","Dave","Eve","Frank","Grace","Hank","Isabelle",
+        "Jacob","Katie","Larry","Mia","Nate","Ophelia","Pau","Rosemary","Steve",
+        "Tiffany","Ulysses","Victoria","Walter","Yolanda","Zeke"] => first_names
+    first_names[Random.RandomInt(List.Length(first_names))] => first
+
+    ["Anderson","Baker","Clark","Davis","Espinoza","Foster","Gomez","Hill",
+        "Ingram","Jones","Kennedy","Larson","Miller","Newman","Olson","Perez",
+        "Rivera","Smith","Tucker","Underhill","Ventura","Wells","Young",
+        "Zimmerman"] => last_names
+    last_names[Random.RandomInt(List.Length(last_names))] => last
+
+    Random.RandomInt(100) => age
+
+    &(x) {first+" "+last+" says hello to "+x} => greet
+
+    [:add_to, "manager", "Employee", id/4] :> Relation:0
+
+	{"first":first, "last":last, "greet_func":greet, "age":age}
+
+msg [:say_hello_to, id]
+    [:greet, state["greet_func"]]
+    :> Employee:id
+    state
+
+msg [:greet, &/1=>greet]
+    greet(state["first"]+" "+state["last"])
+    :> Print:0
+    state
+
+msg [:conference_system, system]
+    "setting up "+system+" for "+state["first"]+" "+state["last"]
+    :> Print:0
+    state
+
+msg :print_direct_reports
+    Relation.GetFroms("manager")
+    |> Enum.Map(&(rel) {rel[1]})
+    |> Enum.Map(Convert.ToStr/1)
+    |> Enum.Reduce(state["last"]+" leads:",&(acc, id){acc+" "+id})
+    :> Print:0
+    state
