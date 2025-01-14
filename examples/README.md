@@ -20,7 +20,7 @@ You might notice that even though the operations are launched in one order, the 
 
 # Advent of Code
 
-The last example is an attempt to solve an actual problem with Collins. I took day two of 2024's (Advent of Code)[https://adventofcode.com/2024/day/2] because it was a nice example of a problem that benefitted from parallel processing and I had recently already solved it using another language. The problem requires you to read lines of digits from a file and determine if the numbers in the line have the right relation to each other. The final result is the count of lines that match that criteria.
+The last example is an attempt to solve an actual problem with Collins. I took day two of 2024's [Advent of Code](https://adventofcode.com/2024/day/2) because it was a nice example of a problem that benefitted from parallel processing and I had recently already solved it using another language. The problem requires you to read lines of digits from a file and determine if the numbers in the line have the right relation to each other. The final result is the count of lines that match that criteria.
 
 The main module (`AocDay02.col`) reads the input file and then sends each line to an individual line processor (`AocDay02Line.col`). Since a module can be identified by an int or a string, I just used the line itself as the identifier. Each line is sent a message asking to check its result.
 
