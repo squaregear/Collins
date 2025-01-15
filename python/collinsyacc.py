@@ -436,7 +436,7 @@ def p_error(p):
     print(f'syntax error: {p.value} ({p.type}) on line {p.lineno} ({p.lexpos})')
 
 def find_column(token):
-    print(f'fin_column: {dir(token.lexer.input)}')
+    print(f'find_column: {dir(token.lexer.input)}')
     line_start=token.lexer.input.rfind('\n', 0, token.lexpos) + 1
     print(f'line_start: {line_start}')
     return 0

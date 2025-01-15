@@ -35,6 +35,7 @@ def comp(ast, module_name):
     out['atoms']={}
     for a in atoms:
         out['atoms'][mymsgpack.UInt(a)]=atoms[a]
+    out['uses']=modules_used
     return out
 
 def build_impl(ast, name):
@@ -111,6 +112,17 @@ def build_pattern(ast, variables):
             out[p[0]]=build_pattern(p[1], variables)
     return out
 
+modules_used=set()
+
+def add_modules(ast):
+    modules_used.add(ast[2][1])
+    if ast[2][1]=='Relation':
+        if ast[1][2][0][1]=='add':
+            modules_used.add(ast[1][2][1][1])
+            modules_used.add(ast[1][2][4][1])
+        elif ast[1][2][0][1]=='add_to' or ast[1][2][0][1]=='add_from':
+            modules_used.add(ast[1][2][2][1])
+
 def build_guard(ast, variables):
     if ast==():
         return bytes()
@@ -157,7 +169,7 @@ def build_code(ast, variables, closure, name):
                     out+=bytes([opcodes.call])
                     if len(ast[1])>0:
                         out+=mymsgpack.encode(ast[1])
-                        # zzz add ast[1] to "uses" set
+                        modules_used.add(ast[1])
                     else:
                         out+=mymsgpack.encode(name)
                     out+=mymsgpack.encode(ast[2])
@@ -197,6 +209,7 @@ def build_code(ast, variables, closure, name):
             # zzz this leads to double encoding, there's probably a better way:
             out+=mymsgpack.encode((ast[1], impls))
         elif ast[0]=='send':
+            add_modules(ast)
             out=build_code(ast[1], variables, closure, name)
             out+=build_code(ast[2], variables, closure, name)
             out+=build_code(ast[3], variables, closure, name)

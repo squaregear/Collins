@@ -4,21 +4,31 @@ import collinsvm
 import extcodes
 import atom
 import re
+import os
 
-def module_from_file(filename):
+def module_from_file(filename, path, module_name):
     with open(filename, 'rb') as file:
         raw_code=file.read()
     module, pos=mymsgpack.decode(raw_code)
-    out={}
+    mod={}
     for f in module['funcs']:
-        out[f]=load_function(module['funcs'][f])
+        mod[f]=load_function(module['funcs'][f])
+    collinsvm.environment[module_name]=mod
     for a in module['atoms']:
         if a in collinsvm.atoms:
             if collinsvm.atoms[a]!=module['atoms'][a]:
                 raise Exception(f'Atom Collision! {a} is both {collinsvm.atoms[a]} and {module["atoms"][a]}')
         else:
             collinsvm.atoms[a]=module['atoms'][a]
-    return out
+    for u in module['uses']:
+        if u not in collinsvm.environment:
+            if os.path.exists(path+u+'.cc'):
+                module_from_file(path+u+'.cc', path, u)
+            elif os.path.exists(u+'.cc'):
+                module_from_file(u+'.cc', path, u)
+            else:
+                print(f'Required module {u} couldn\'t be found.')
+                raise Exception(f'Required module {u} couldn\'t be found.')
 
 def load_function(f):
     return collinsvm.Function(f[0], [load_impl(impl) for impl in f[1]])
@@ -54,21 +64,21 @@ def load_pattern(p):
         return p
 
 pathpart=re.compile(r'.*[/\\]')
-def just_module_name(filename):
+def separate_module_name(filename):
         m=pathpart.match(filename)
         module_name=filename
+        path=''
         if m:
             module_name=module_name[len(m[0]):]
-        return module_name[:module_name.index('.')]
+            path=m[0]
+        return module_name[:module_name.index('.')], path
 
 if __name__=='__main__':
     module_name='guesser'
     if len(sys.argv)>1:
-        for filen in sys.argv[1:]:
-            module_name=just_module_name(filen)
-            collinsvm.environment[module_name]=module_from_file(filen)
+        module_name, path=separate_module_name(sys.argv[1])
+        module_from_file(sys.argv[1], path, module_name)
 
-        module_name=just_module_name(sys.argv[1])
         collinsvm.SendMessage([atom.of('startup'), sys.argv[1:]], module_name, 0, 'system', 0)
 
         while not collinsvm.process_queue.empty():
