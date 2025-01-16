@@ -39,7 +39,7 @@ You can match against the contents of a list by specifying patterns in square br
 
     Function([:my_atom, int, &/2])
 
-You can match against the contents of a map by specifying key:value patterns in curly braces. The key parts of each pattern has to be an int or string literal. The value part can be any kind of pattern. Any list that has those keys and corresponding values that match the specified patterns matches the map pattern.
+You can match against the contents of a map by specifying key:value patterns in curly braces. The key part of each pattern has to be an int or string literal. The value part can be any kind of pattern. Any map that has those keys and corresponding values that match the specified patterns matches the map pattern.
 
     Function({"name": username, "age": int, "items": []})
 
@@ -97,7 +97,7 @@ The pipe operator is best used to form a flow of data through a series of functi
 
 Anonymous functions are defined with the `&` operator, followed by its list of paramters (with an optional guard), and then a code block enclosed in curly braces.
 
-    &(int=>i, {"multiplier":m}) {i*m)
+    &(int=>i, {"multiplier":m}) {i*m}
 
 You can define multiple variations of an anonymous function with different parameters just like you can with regular functions. Just include multiple anonymous function definitions right after each other. They must all take the same number of paramters (the same arity).
 
@@ -132,7 +132,7 @@ The code blocks of your message handlers consist of assignments, message sends, 
 
 There are a few other variables available to your messages handlers. `ident` is the identifier of this instance. `from_module` and `from_ident` identify which instance of which module sent the message.
 
-The `msg` message handler syntax is actually just a shorthand for function. Each message handler is compiled as a function called Receive like this:
+The `msg` message handler syntax is actually just a shorthand for a function. Each message handler is compiled as a function called Receive like this:
 
     Receive(state, my_pattern, ident, from_module, from_ident)
 
